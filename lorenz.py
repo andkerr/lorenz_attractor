@@ -2,14 +2,14 @@ import pygame
 
 class Lorenz():
     def __init__(self, init_x, init_y, init_z, color):
-        self.x_min, self.x_max = -30, 30
-        self.y_min, self.y_max = -30, 30
+        self.x_min, self.x_max = -25, 25
+        self.y_min, self.y_max = -40, 40
         self.z_min, self.z_max = 0, 50
 
         # Lorenz attractor "evolution parameters"
         self.A = 10
         self.B = 28
-        self.C = 8 / 3
+        self.C = 7 / 3
 
         self.x = init_x
         self.y = init_y
@@ -19,7 +19,7 @@ class Lorenz():
         self.y_prev = self.y
         self.z_prev = self.z
 
-        self.dt = 0.005
+        self.dt = 0.003
 
         self.pixel_color = color
 
@@ -68,6 +68,7 @@ class Application():
         self.fps_clock = None
         self.attractors = []
         self.inital_condititions = inital_conditions
+        # TODO: make this compatible with any monitor size
         self.size = self.width, self.height = 1440, 850
         self.count = 0
         self.output_count = 1
@@ -115,14 +116,13 @@ class Application():
 
         pygame.quit()
 
+# TODO: CLI that lets users specify # of attractors and initial conditions
 if __name__ == "__main__":
-    red = (255, 0, 0)
-    blue = (0, 0, 255)
-    green = (0, 255, 0)
+    orange = (255, 165, 0)
+    blue = (5, 5, 255)
 
-    a1 = (0.1, 0.0, 0.0, red)
+    a1 = (0.10, 0.0, 0.0, orange)
     a2 = (0.11, 0.0, 0.0, blue)
-    a3 = (0.099, 0.0, 0.0, green)
 
-    app = Application((a1, a2, a3))
+    app = Application((a1, a2))
     app.on_execute()
