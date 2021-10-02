@@ -3,7 +3,7 @@ Lorenz Attractor Animation
 
 By Andrew Kerr <kerrand@protonmail.com>
 
-![Screenshot not available](img/screenshot.png "Example of attractors.")
+![Screenshot not available](img/screenshot.png "Example of 2 attractors.")
 
 A simple implementation of the
 [Lorenz Attractor](https://en.wikipedia.org/wiki/Lorenz_system).
