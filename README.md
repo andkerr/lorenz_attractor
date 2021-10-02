@@ -4,8 +4,9 @@ Lorenz Attractor Animation
 By Andrew Kerr <kerrand@protonmail.com>
 
 A simple implementation of the
-[Lorenz Attractor](https://en.wikipedia.org/wiki/Lorenz_system)
-that includes a CLI.
+[Lorenz Attractor](https://en.wikipedia.org/wiki/Lorenz_system).
+Complete with a CLI, that supports up to 5 simultaneous attractors and
+sets of initial conditions.
 
 Inspired by
 [Quantitative Bytes](https://www.youtube.com/channel/UCiQVEoqrJNiVBWAcknaJLnQ),
