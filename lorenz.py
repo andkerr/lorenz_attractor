@@ -128,6 +128,7 @@ def collect_inital_conds():
     colors = [orange, blue, green, red, grey]
 
     num_attractors = None
+    print('\n')
     while True:
         inp = input(
             "How many attractors would you like to animate (1 - 5) (q to Quit): "
