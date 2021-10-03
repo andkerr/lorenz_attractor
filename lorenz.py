@@ -1,7 +1,7 @@
 import pygame
 
 class Lorenz():
-    def __init__(self, init_x, init_y, init_z, color):
+    def __init__(self, init_x, init_y, init_z, color, dt):
         self.x_min, self.x_max = -30, 30
         self.y_min, self.y_max = -30, 30
         self.z_min, self.z_max = -50, 50
@@ -19,7 +19,7 @@ class Lorenz():
         self.y_prev = self.y
         self.z_prev = self.z
 
-        self.dt = 0.003
+        self.dt = dt
 
         self.pixel_color = color
 
@@ -119,19 +119,23 @@ class Application():
         pygame.quit()
 
 def collect_inital_conds():
-    orange = (255, 165, 0)
-    blue = (5, 5, 255)
-    green = (5, 255, 5)
-    red = (255, 5, 5)
-    grey = (120, 120, 120)
+    ORANGE = (255, 165, 0)
+    BLUE = (5, 5, 255)
+    GREEN = (5, 255, 5)
+    RED = (255, 5, 5)
+    GREY = (120, 120, 120)
+    colors = [ORANGE, BLUE, GREEN, RED, GREY]
 
-    colors = [orange, blue, green, red, grey]
+    SLOW = 0.0025
+    MEDIUM = 0.005
+    FAST = 0.01
+    speeds = [SLOW, MEDIUM, FAST]
 
     num_attractors = None
-    print('\n')
+    print('')
     while True:
         inp = input(
-            "How many attractors would you like to animate (1 - 5) (q to Quit): "
+            "How many attractors would you like to animate (1 - 5 or q to Quit): "
         )
         if inp == 'q' or inp == 'Q':
             return None
@@ -148,15 +152,31 @@ def collect_inital_conds():
 
         break
 
+    speed_choice = None
+    while True:
+        speed_in = input(
+            "How fast would you like the animation to evolve? [slow|medium|fast] or q to Quit: "
+        )
+        if speed_in == 'q' or speed_in == 'Q':
+            return None
+
+        if speed_in not in ['slow', 'medium', 'fast']:
+            print("Please enter a valid choice.")
+            continue
+
+        speed_choice = speeds[['slow', 'medium', 'fast'].index(speed_in)]
+
+        break
+
     initial_conds = []
     for i in range(num_attractors):
-        print("\n")
+        print("")
         print(f"Attractor #{i+1}")
         print("=================")
 
-        x_init = ['Initial x coordinate [-1.0, 1.0] (q to Quit): ', None]
-        y_init = ['Initial y coordinate [-1.0, 1.0] (q to Quit): ', None]
-        z_init = ['Initial z coordinate [-1.0, 1.0] (q to Quit): ', None]
+        x_init = ['Initial x coordinate (-1.0 - 1.0 or q to Quit): ', None]
+        y_init = ['Initial y coordinate (-1.0 - 1.0 or q to Quit): ', None]
+        z_init = ['Initial z coordinate (-1.0 - 1.0 or q to Quit): ', None]
         for coord in [x_init, y_init, z_init]:
             while True:
                 inp = input(f"{coord[0]}")
@@ -175,16 +195,21 @@ def collect_inital_conds():
 
                 break
 
-        initial_conds.append((x_init[1], y_init[1], z_init[1], colors[i]))
+        initial_conds.append(
+            (x_init[1], y_init[1], z_init[1], colors[i], speed_choice)
+        )
+
 
     return initial_conds
 
 if __name__ == "__main__":
 
+    print("\n===== LORENZ ATTRACTOR ANIMATOR =====\n")
+
     initial_conds = collect_inital_conds()
 
     if initial_conds is not None:
-        print('\n')
+        print("")
         print("Initializing...")
         app = Application(initial_conds)
         app.on_execute()
