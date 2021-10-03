@@ -135,7 +135,7 @@ def collect_inital_conds():
     print('')
     while True:
         inp = input(
-            "How many attractors would you like to animate (1 - 5 or q to Quit): "
+            "How many attractors would you like to animate [1 - 5]? "
         )
         if inp == 'q' or inp == 'Q':
             return None
@@ -155,7 +155,7 @@ def collect_inital_conds():
     speed_choice = None
     while True:
         speed_in = input(
-            "How fast would you like the animation to evolve? [slow|medium|fast] or q to Quit: "
+            "How fast would you like the animation to evolve [slow|medium|fast]? "
         )
         if speed_in == 'q' or speed_in == 'Q':
             return None
@@ -174,9 +174,9 @@ def collect_inital_conds():
         print(f"Attractor #{i+1}")
         print("=================")
 
-        x_init = ['Initial x coordinate (-1.0 - 1.0 or q to Quit): ', None]
-        y_init = ['Initial y coordinate (-1.0 - 1.0 or q to Quit): ', None]
-        z_init = ['Initial z coordinate (-1.0 - 1.0 or q to Quit): ', None]
+        x_init = ['Initial x coordinate [-1.0 - +1.0]? ', None]
+        y_init = ['Initial y coordinate [-1.0 - +1.0]? ', None]
+        z_init = ['Initial z coordinate [-1.0 - +1.0]? ', None]
         for coord in [x_init, y_init, z_init]:
             while True:
                 inp = input(f"{coord[0]}")
@@ -202,14 +202,34 @@ def collect_inital_conds():
 
     return initial_conds
 
+def print_welcome_message():
+    header = "\n===== LORENZ ATTRACTOR ANIMATOR =====\n\n"
+
+    welcome =  "Welcome! Follow the instructions below to get started,\n"
+    welcome += "         or type q+Enter to quit any time.\n"
+
+    print(header)
+    print(welcome)
+
 if __name__ == "__main__":
 
-    print("\n===== LORENZ ATTRACTOR ANIMATOR =====\n")
+    print_welcome_message()
 
-    initial_conds = collect_inital_conds()
+    while True:
+        initial_conds = collect_inital_conds()
 
-    if initial_conds is not None:
-        print("")
-        print("Initializing...")
-        app = Application(initial_conds)
-        app.on_execute()
+        if initial_conds is not None:
+            print("\nInitializing...")
+            app = Application(initial_conds)
+            app.on_execute()
+        else:
+            break
+
+        repeat = input("\nCreate another animation [y/n]? ")
+        if repeat in ['y', 'Y', "yes", "Yes"]:
+            continue
+        else:
+            print("See you!")
+            break
+
+        
