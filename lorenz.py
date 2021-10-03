@@ -1,4 +1,5 @@
 import pygame
+import pygame.font
 
 class Lorenz():
     def __init__(self, init_x, init_y, init_z, color, dt):
@@ -81,6 +82,12 @@ class Application():
         self.display_surface = pygame.display.set_mode((0, 0))
         self.is_running = True
         self.fps_clock = pygame.time.Clock()
+
+        # TODO: Configure help message
+        # if pygame.font:
+        #     font = pygame.font.Font(None, 12)
+        #     text = font.render("Press any key to quit.", False, (200, 200, 200))
+        #     self.display_surface.blit(text,(100,100))
 
         for cond in self.inital_condititions:
             new_attractor = Lorenz(*cond)
