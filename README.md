@@ -5,10 +5,9 @@ By Andrew Kerr <kerrand@protonmail.com>
 
 ![Screenshot not available](img/screenshot.png "Example of 2 attractors.")
 
-A simple implementation of the
-[Lorenz Attractor](https://en.wikipedia.org/wiki/Lorenz_system).
-Complete with a CLI that supports up to 5 simultaneous attractors and
-sets of initial conditions.
+This script implements a CLI that lets users specify inital conditions for up to
+five simultaneous [Lorenz Attractors](https://en.wikipedia.org/wiki/Lorenz_system)
+, and generates a corresponding animation of their motion.
 
 Inspired by
 [Quantitative Bytes](https://www.youtube.com/channel/UCiQVEoqrJNiVBWAcknaJLnQ),
