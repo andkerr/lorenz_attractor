@@ -218,6 +218,9 @@ def print_welcome_message():
     print(header)
     print(welcome)
 
+def print_exit_message():
+    print("\nSee you!")
+
 if __name__ == "__main__":
 
     print_welcome_message()
@@ -236,5 +239,6 @@ if __name__ == "__main__":
         if repeat in ['y', 'Y', "yes", "Yes"]:
             continue
         else:
-            print("See you!")
             break
+
+    print_exit_message()
