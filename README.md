@@ -13,13 +13,13 @@ Inspired by
 [Quantitative Bytes](https://www.youtube.com/channel/UCiQVEoqrJNiVBWAcknaJLnQ),
 and created with Pygame.
 
-To run, first install pygame:
+First install required packages:
 
 ```
-pip install pygame
+pip -r install requirements.txt
 ```
 
-Then download `lorenz.py` and run:
+Then run:
 
 ```
 python3 lorenz.py
