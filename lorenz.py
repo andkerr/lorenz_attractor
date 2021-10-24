@@ -1,6 +1,7 @@
 import pygame
 import pygame.font
 
+
 class Lorenz():
     def __init__(self, init_x, init_y, init_z, color, dt):
         self.x_min, self.x_max = -30, 30
@@ -28,16 +29,17 @@ class Lorenz():
         self.x_prev = self.x
         self.y_prev = self.y
         self.z_prev = self.z
-        
+
         self.x += self.A * (self.y_prev - self.x_prev) * self.dt
-        self.y += (self.x_prev * (self.B - self.z_prev) - self.y_prev) * self.dt
+        self.y += (self.x_prev *
+                   (self.B - self.z_prev) - self.y_prev) * self.dt
         self.z += (self.x_prev * self.y_prev - self.C * self.z_prev) * self.dt
 
     def draw(self, display_surface, display_padding):
         width, height = display_surface.get_size()
         width *= 1 - display_padding
         height *= 1 - display_padding
-        
+
         prev_pos = self.to_screen_coords(
             self.x_prev, self.y_prev,
             self.x_min, self.x_max,
@@ -57,7 +59,8 @@ class Lorenz():
 
         return new_rect
 
-    def to_screen_coords(self, x, y, x_min, x_max, y_min, y_max, width, height):
+    def to_screen_coords(
+            self, x, y, x_min, x_max, y_min, y_max, width, height):
         screen_x = width * ((x - x_min) / (x_max - x_min))
         screen_y = height * ((y - y_min) / (y_max - y_min))
 
@@ -86,7 +89,8 @@ class Application():
         # TODO: Configure help message
         # if pygame.font:
         #     font = pygame.font.Font(None, 12)
-        #     text = font.render("Press any key to quit.", False, (200, 200, 200))
+        #     text = font.render(
+        #             "Press any key to quit.", False, (200, 200, 200))
         #     self.display_surface.blit(text,(100,100))
 
         for cond in self.inital_condititions:
@@ -110,7 +114,7 @@ class Application():
         pygame.display.update(new_rects)
 
     def on_execute(self):
-        if self.on_init() == False:
+        if self.on_init() is False:
             self.is_running = False
 
         while self.is_running:
@@ -124,6 +128,7 @@ class Application():
             self.count += 1
 
         pygame.quit()
+
 
 def collect_inital_conds():
     ORANGE = (255, 165, 0)
@@ -149,7 +154,7 @@ def collect_inital_conds():
 
         try:
             num_attractors = int(inp)
-        except:
+        except ValueError:
             print("Please enter a number between 1 and 5", "\n")
             continue
 
@@ -162,7 +167,8 @@ def collect_inital_conds():
     speed_choice = None
     while True:
         speed_in = input(
-            "How fast would you like the animation to evolve [slow|medium|fast]? "
+            """How fast would you like
+            the animation to evolve [slow|medium|fast]? """
         )
         if speed_in == 'q' or speed_in == 'Q':
             return None
@@ -192,7 +198,7 @@ def collect_inital_conds():
 
                 try:
                     coord[1] = float(inp)
-                except:
+                except ValueError:
                     print("Please enter a value between -1.0 and +1.0")
                     continue
 
@@ -206,20 +212,22 @@ def collect_inital_conds():
             (x_init[1], y_init[1], z_init[1], colors[i], speed_choice)
         )
 
-
     return initial_conds
+
 
 def print_welcome_message():
     header = "\n===== LORENZ ATTRACTOR ANIMATOR =====\n\n"
 
-    welcome =  "Welcome! Follow the instructions below to get started,\n"
+    welcome = "Welcome! Follow the instructions below to get started,\n"
     welcome += "         or type q+Enter to quit any time.\n"
 
     print(header)
     print(welcome)
 
+
 def print_exit_message():
     print("\nSee you!")
+
 
 if __name__ == "__main__":
 
@@ -230,6 +238,7 @@ if __name__ == "__main__":
 
         if initial_conds is not None:
             print("\nInitializing...")
+            print("\nRunning...press any key to stop.")
             app = Application(initial_conds)
             app.on_execute()
         else:
