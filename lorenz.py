@@ -1,3 +1,8 @@
+# TODO
+# - add instructions to simulation window
+# - let a user "pause" the animation
+# - display particle coordinates
+# - output coordinates to a file?
 import pygame
 import pygame.font
 
