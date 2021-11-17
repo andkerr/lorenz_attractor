@@ -1,8 +1,6 @@
-# TODO
-# - add instructions to simulation window
-# - let a user "pause" the animation
-# - display particle coordinates
-# - output coordinates to a file?
+# Lorenz Attractor Animator and CLI
+# by Andrew Kerr <kerrand@protonmail.com>
+
 import pygame
 import pygame.font
 
@@ -72,7 +70,7 @@ class Lorenz():
         return round(screen_x), round(screen_y)
 
 
-class Application():
+class Simulator():
     def __init__(self, inital_conditions):
         self.is_running = True
         self.display_surface = None
@@ -90,13 +88,6 @@ class Application():
         self.display_surface = pygame.display.set_mode((0, 0))
         self.is_running = True
         self.fps_clock = pygame.time.Clock()
-
-        # TODO: Configure help message
-        # if pygame.font:
-        #     font = pygame.font.Font(None, 12)
-        #     text = font.render(
-        #             "Press any key to quit.", False, (200, 200, 200))
-        #     self.display_surface.blit(text,(100,100))
 
         for cond in self.inital_condititions:
             new_attractor = Lorenz(*cond)
@@ -149,12 +140,10 @@ def collect_inital_conds():
     speeds = [SLOW, MEDIUM, FAST]
 
     num_attractors = None
-    print('')
     while True:
-        inp = input(
-            "How many attractors would you like to animate [1 - 5]? "
-        )
-        if inp == 'q' or inp == 'Q':
+        prompt = "\nHow many attractors would you like to animate [1 - 5]? "
+        inp = input(prompt).lower().strip()
+        if inp in ["q", "quit"]:
             return None
 
         try:
@@ -163,26 +152,26 @@ def collect_inital_conds():
             print("Please enter a number between 1 and 5", "\n")
             continue
 
-        if num_attractors not in range(1, 5):
+        if num_attractors not in range(1, 6):
             print("Please enter a number between 1 and 5", "\n")
             continue
 
         break
 
     speed_choice = None
+    valid_speeds = ["slow", "medium", "fast"]
     while True:
-        speed_in = input(
-            """How fast would you like
-            the animation to evolve [slow|medium|fast]? """
-        )
-        if speed_in == 'q' or speed_in == 'Q':
+        prompt = "How fast would you like the animation to evolve "
+        prompt += "[slow | medium | fast]? "
+        speed_in = input(prompt).lower().strip()
+        if speed_in in ["q", "quit"]:
             return None
 
-        if speed_in not in ['slow', 'medium', 'fast']:
-            print("Please enter a valid choice.")
+        if speed_in not in valid_speeds:
+            print("Please enter a valid choice.", "\n")
             continue
 
-        speed_choice = speeds[['slow', 'medium', 'fast'].index(speed_in)]
+        speed_choice = speeds[valid_speeds.index(speed_in)]
 
         break
 
@@ -192,29 +181,44 @@ def collect_inital_conds():
         print(f"Attractor #{i+1}")
         print("=================")
 
-        x_init = ['Initial x coordinate [-1.0 - +1.0]? ', None]
-        y_init = ['Initial y coordinate [-1.0 - +1.0]? ', None]
-        z_init = ['Initial z coordinate [-1.0 - +1.0]? ', None]
-        for coord in [x_init, y_init, z_init]:
-            while True:
-                inp = input(f"{coord[0]}")
-                if inp == 'q' or inp == 'Q':
-                    return None
+        x_in = {"prompt": "Initial x [-1.0 - +1.0]? ", "val": None}
+        y_in = {"prompt": "Initial y [-1.0 - +1.0]? ", "val": None}
+        z_in = {"prompt": "Initial z [-1.0 - +1.0]? ", "val": None}
+        # one while loop is used to collect valid inital conditions,
+        # the second invites the user to re-enter them if x_in == y_in == 0
+        while True:
+            for coord in [x_in, y_in, z_in]:
+                while True:
+                    inp = input(f"{coord['prompt']}").lower().strip()
+                    if inp in ["q", "quit"]:
+                        return None
 
-                try:
-                    coord[1] = float(inp)
-                except ValueError:
-                    print("Please enter a value between -1.0 and +1.0")
+                    try:
+                        coord["val"] = float(inp)
+                    except ValueError:
+                        print("Please enter a value between -1.0 and +1.0")
+                        continue
+
+                    if abs(coord["val"]) > 1.0:
+                        print("Please enter a value between -1.0 and +1.0")
+                        continue
+
+                    break
+
+            if x_in["val"] == 0.0 and y_in["val"] == 0.0:
+                warning = "WARNING: The animtator currently supports "
+                warning += "attractor animations in the xy-plane only.\n"
+                warning += "Initial x- and y-values of 0.0 will create "
+                warning += "a stationary attractor.\n\nProceed [y|n]? "
+
+                response = input(warning).lower().strip()
+                if response not in ["y", "yes"]:
                     continue
 
-                if coord[1] < -1.0 or 1.0 < coord[1]:
-                    print("Please enter a value between -1.0 and +1.0")
-                    continue
-
-                break
+            break
 
         initial_conds.append(
-            (x_init[1], y_init[1], z_init[1], colors[i], speed_choice)
+            (x_in["val"], y_in["val"], z_in["val"], colors[i], speed_choice)
         )
 
     return initial_conds
@@ -244,13 +248,13 @@ if __name__ == "__main__":
         if initial_conds is not None:
             print("\nInitializing...")
             print("\nRunning...press any key to stop.")
-            app = Application(initial_conds)
+            app = Simulator(initial_conds)
             app.on_execute()
         else:
             break
 
-        repeat = input("\nCreate another animation [y/n]? ")
-        if repeat in ['y', 'Y', "yes", "Yes"]:
+        repeat = input("\nCreate another animation [y/n]? ").lower().strip()
+        if repeat in ["y", "yes"]:
             continue
         else:
             break
