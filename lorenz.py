@@ -141,7 +141,7 @@ def collect_inital_conds():
 
     num_attractors = None
     while True:
-        prompt = "\nHow many attractors would you like to animate [1 - 5]? "
+        prompt = "How many attractors would you like to animate [1 - 5]? "
         inp = input(prompt).lower().strip()
         if inp in ["q", "quit"]:
             return None
@@ -196,11 +196,11 @@ def collect_inital_conds():
                     try:
                         coord["val"] = float(inp)
                     except ValueError:
-                        print("Please enter a value between -1.0 and +1.0")
+                        print("Please enter a value between -1.0 and +1.0\n")
                         continue
 
                     if abs(coord["val"]) > 1.0:
-                        print("Please enter a value between -1.0 and +1.0")
+                        print("Please enter a value between -1.0 and +1.0\n")
                         continue
 
                     break
@@ -225,10 +225,10 @@ def collect_inital_conds():
 
 
 def print_welcome_message():
-    header = "\n===== LORENZ ATTRACTOR ANIMATOR =====\n\n"
+    header = "\n============= LORENZ ATTRACTOR ANIMATOR =============\n\n"
 
     welcome = "Welcome! Follow the instructions below to get started,\n"
-    welcome += "         or type q+Enter to quit any time.\n"
+    welcome += "         or type q+Enter to quit any time.\n\n"
 
     print(header)
     print(welcome)
