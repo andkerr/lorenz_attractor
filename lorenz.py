@@ -2,7 +2,6 @@
 # by Andrew Kerr <kerrand@protonmail.com>
 
 import pygame
-import pygame.font
 
 
 class Lorenz():
@@ -132,18 +131,18 @@ def collect_inital_conds():
     GREEN = (5, 255, 5)
     RED = (255, 5, 5)
     GREY = (120, 120, 120)
-    colors = [ORANGE, BLUE, GREEN, RED, GREY]
+    colors = (ORANGE, BLUE, GREEN, RED, GREY)
 
     SLOW = 0.0025
     MEDIUM = 0.005
     FAST = 0.01
-    speeds = [SLOW, MEDIUM, FAST]
+    speeds = (SLOW, MEDIUM, FAST)
 
     num_attractors = None
     while True:
         prompt = "How many attractors would you like to animate [1 - 5]? "
         inp = input(prompt).lower().strip()
-        if inp in ["q", "quit"]:
+        if inp in ("q", "quit"):
             return None
 
         try:
@@ -159,12 +158,12 @@ def collect_inital_conds():
         break
 
     speed_choice = None
-    valid_speeds = ["slow", "medium", "fast"]
+    valid_speeds = ("slow", "medium", "fast")
     while True:
         prompt = "How fast would you like the animation to evolve "
         prompt += "[slow | medium | fast]? "
         speed_in = input(prompt).lower().strip()
-        if speed_in in ["q", "quit"]:
+        if speed_in in ("q", "quit"):
             return None
 
         if speed_in not in valid_speeds:
@@ -184,13 +183,14 @@ def collect_inital_conds():
         x_in = {"prompt": "Initial x [-1.0 - +1.0]? ", "val": None}
         y_in = {"prompt": "Initial y [-1.0 - +1.0]? ", "val": None}
         z_in = {"prompt": "Initial z [-1.0 - +1.0]? ", "val": None}
+
         # one while loop is used to collect valid inital conditions,
         # the second invites the user to re-enter them if x_in == y_in == 0
         while True:
-            for coord in [x_in, y_in, z_in]:
+            for coord in (x_in, y_in, z_in):
                 while True:
                     inp = input(f"{coord['prompt']}").lower().strip()
-                    if inp in ["q", "quit"]:
+                    if inp in ("q", "quit"):
                         return None
 
                     try:
@@ -208,11 +208,11 @@ def collect_inital_conds():
             if x_in["val"] == 0.0 and y_in["val"] == 0.0:
                 warning = "WARNING: The animtator currently supports "
                 warning += "attractor animations in the xy-plane only.\n"
-                warning += "Initial x- and y-values of 0.0 will create "
-                warning += "a stationary attractor.\n\nProceed [y|n]? "
+                warning += "         Initial x- and y-values of 0.0 will create "
+                warning += "a stationary attractor.\n\nProceed [y/n]? "
 
                 response = input(warning).lower().strip()
-                if response not in ["y", "yes"]:
+                if response not in ("y", "yes"):
                     continue
 
             break
@@ -254,7 +254,7 @@ if __name__ == "__main__":
             break
 
         repeat = input("\nCreate another animation [y/n]? ").lower().strip()
-        if repeat in ["y", "yes"]:
+        if repeat in ("y", "yes"):
             continue
         else:
             break
