@@ -1,8 +1,6 @@
 Lorenz Attractor Animation
 ==========================
 
-By Andrew Kerr <kerrand@protonmail.com>
-
 ![Screenshot not available](img/screenshot.png "Example of 2 attractors.")
 
 This script implements a CLI that lets users specify inital conditions for up to
@@ -24,3 +22,5 @@ Then run:
 ```
 python3 lorenz.py
 ```
+
+By Andrew Kerr <kerrand@protonmail.com>
